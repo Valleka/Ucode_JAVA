@@ -1,5 +1,9 @@
 package world.ucode;
 
+import world.ucode.objectgame.Clouds;
+import world.ucode.objectgame.Land;
+import world.ucode.objectgame.MainCharacter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -8,16 +12,20 @@ import java.awt.event.KeyListener;
 public class GameScreen extends JPanel implements Runnable, KeyListener {
 
     public static final float GRAVITY = 0.1f;
-    private float x = 0;
-    private float y = 0;
-    private float speedY = 0;
+    public static final float GROUNDY = 110; //в пикселях позиция земли
 
-
+    private MainCharacter mainCharacter;
     private Thread thread;
+    private Land land;
+    private Clouds clouds;
 
     public GameScreen() {
-
+        //конструктор
         thread = new Thread(this);
+        mainCharacter = new MainCharacter();
+        mainCharacter.setX(50); // сдвигаем дино правее от левого края окна
+        land = new Land(this);
+        clouds = new Clouds();
     }
 
     public void startGame() {
@@ -28,8 +36,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
     public void run() {
         while(true) {
             try {
-                speedY += GRAVITY;
-                y += speedY;
+                mainCharacter.update();
+                land.update();
+                clouds.update();//движение облаков
                 repaint();
                 Thread.sleep(20);
             } catch (InterruptedException ex) {
@@ -40,10 +49,13 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.white); //цвет бэкграунда
-        g.fillRect(0,0,getWidth(),getHeight());
-        g.setColor(Color.BLACK);//цвет квадрата
-        g.drawRect((int) x, (int) y,100,100);
+        g.setColor(Color.decode("#f7f7f7")); //цвет бэкграунда всего поля
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.red);
+        g.drawLine(0, (int)GROUNDY, getWidth(), (int) GROUNDY);
+        clouds.draw(g);
+        land.draw(g);
+        mainCharacter.draw(g);
     }
 
     @Override
@@ -53,7 +65,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        speedY = -4;
+        mainCharacter.jump();
     }
     @Override
     public void keyReleased(KeyEvent e) {

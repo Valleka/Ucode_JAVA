@@ -9,7 +9,8 @@ public class GameWindow  extends JFrame {
 
     public GameWindow() {
         super("Dino");
-        setSize(400,400);
+        setSize(600,175);
+        setLocation(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameScreen = new GameScreen();
         add(gameScreen);

@@ -14,6 +14,7 @@ public class MainCharacter {
     private float speedY = 0;
     private Animation characterRun;
     private Rectangle rect;
+    private boolean isAlive = true;
 
 
     public MainCharacter() {
@@ -76,5 +77,13 @@ public class MainCharacter {
 
     public void setSpeedY(float speedY) {
         this.speedY = speedY;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+    public boolean getAlive() {
+        return isAlive;
     }
 }

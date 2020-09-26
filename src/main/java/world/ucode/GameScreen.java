@@ -1,17 +1,21 @@
 package world.ucode;
 
-import world.ucode.objectgame.Cactus;
 import world.ucode.objectgame.Clouds;
+import world.ucode.objectgame.EnemiesManager;
 import world.ucode.objectgame.Land;
 import world.ucode.objectgame.MainCharacter;
+import world.ucode.util.Resourse;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 public class GameScreen extends JPanel implements Runnable, KeyListener {
-
+    public static final int GAME_FIRST_STATE = 0;
+    public static final int GAME_PLAY_STATE = 1;
+    public static final int GAME_OVER_STATE = 2;
     public static final float GRAVITY = 0.1f;
     public static final float GROUNDY = 110; //в пикселях позиция земли
 
@@ -19,7 +23,12 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
     private Thread thread;
     private Land land;
     private Clouds clouds;
-    private Cactus cactus;
+    private EnemiesManager enemiesManager;
+    private int score;
+
+    private int gameState = GAME_FIRST_STATE;
+
+    private BufferedImage imageGameOverText;
 
     public GameScreen() {
         //конструктор
@@ -28,7 +37,8 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
         mainCharacter.setX(50); // сдвигаем дино правее от левого края окна
         land = new Land(this);
         clouds = new Clouds();
-        cactus = new Cactus();
+        enemiesManager = new EnemiesManager(mainCharacter, this);
+        imageGameOverText = Resourse.getResourceImage("src/main/resources/gameover_text.png");
     }
 
     public void startGame() {
@@ -39,14 +49,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
     public void run() {
         while(true) {
             try {
-                mainCharacter.update();
-                land.update();
-                clouds.update();//движение облаков
-                cactus.update();; //движение кактусов
-                //коллизия, остановка при столкновении с чем-то
-                if (cactus.getBound().intersects(mainCharacter.getBound())) {
-                    System.out.println("Get Collision");
-                }
+                update();
                 repaint();
                 Thread.sleep(20);
             } catch (InterruptedException ex) {
@@ -55,16 +58,52 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
         }
     }
 
+    public void update() {
+        switch (gameState) {
+            case GAME_PLAY_STATE:
+                mainCharacter.update();
+                land.update();
+                clouds.update();//движение облаков
+                enemiesManager.update();
+                if (!mainCharacter.getAlive()) {
+                    gameState = GAME_OVER_STATE;
+                }
+                break;
+        }
+    }
+
+    //плюсуем стату
+    public void plusScore(int score) {
+        this.score += score;
+    }
+
     @Override
     public void paint(Graphics g) {
         g.setColor(Color.decode("#f7f7f7")); //цвет бэкграунда всего поля
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.red);
         g.drawLine(0, (int)GROUNDY, getWidth(), (int) GROUNDY);
-        clouds.draw(g);
-        land.draw(g);
-        mainCharacter.draw(g);
-        cactus.draw(g);
+
+        switch (gameState) {
+            case GAME_FIRST_STATE:
+                mainCharacter.draw(g);
+                break;
+            case GAME_PLAY_STATE:
+                clouds.draw(g);
+                land.draw(g);
+                mainCharacter.draw(g);
+                enemiesManager.draw(g);
+                g.drawString("HI " + String.valueOf(score), 500, 20);
+                break;
+            case GAME_OVER_STATE:
+                clouds.draw(g);
+                land.draw(g);
+                mainCharacter.draw(g);
+                enemiesManager.draw(g);
+                g.drawImage(imageGameOverText, 100, 50, null);
+                break;
+        }
+
     }
 
     @Override
@@ -74,11 +113,21 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        mainCharacter.jump();
+
     }
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("Key Released");
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_SPACE:
+                if (gameState == GAME_FIRST_STATE) {
+                    gameState = GAME_PLAY_STATE;
+                } else if (gameState == GAME_PLAY_STATE) {
+                    mainCharacter.jump();
+                } else if (gameState == GAME_OVER_STATE) {
+                    gameState = GAME_PLAY_STATE;
+                }
+                break;
+        }
     }
 
 }

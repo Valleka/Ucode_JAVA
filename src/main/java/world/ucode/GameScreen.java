@@ -1,5 +1,6 @@
 package world.ucode;
 
+import world.ucode.objectgame.Cactus;
 import world.ucode.objectgame.Clouds;
 import world.ucode.objectgame.Land;
 import world.ucode.objectgame.MainCharacter;
@@ -18,6 +19,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
     private Thread thread;
     private Land land;
     private Clouds clouds;
+    private Cactus cactus;
 
     public GameScreen() {
         //конструктор
@@ -26,6 +28,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
         mainCharacter.setX(50); // сдвигаем дино правее от левого края окна
         land = new Land(this);
         clouds = new Clouds();
+        cactus = new Cactus();
     }
 
     public void startGame() {
@@ -39,6 +42,11 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
                 mainCharacter.update();
                 land.update();
                 clouds.update();//движение облаков
+                cactus.update();; //движение кактусов
+                //коллизия, остановка при столкновении с чем-то
+                if (cactus.getBound().intersects(mainCharacter.getBound())) {
+                    System.out.println("Get Collision");
+                }
                 repaint();
                 Thread.sleep(20);
             } catch (InterruptedException ex) {
@@ -56,6 +64,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
         clouds.draw(g);
         land.draw(g);
         mainCharacter.draw(g);
+        cactus.draw(g);
     }
 
     @Override

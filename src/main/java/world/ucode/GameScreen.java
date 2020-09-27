@@ -7,10 +7,15 @@ import world.ucode.objectgame.MainCharacter;
 import world.ucode.util.Resourse;
 
 import javax.swing.*;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static java.applet.Applet.newAudioClip;
 
 public class GameScreen extends JPanel implements Runnable, KeyListener {
     public static final int GAME_FIRST_STATE = 0;
@@ -29,16 +34,24 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
     private int gameState = GAME_FIRST_STATE;
 
     private BufferedImage imageGameOverText;
+    private AudioClip scoreUpSound;
 
     public GameScreen() {
         //конструктор
         thread = new Thread(this);
         mainCharacter = new MainCharacter();
         mainCharacter.setX(50); // сдвигаем дино правее от левого края окна
+        mainCharacter.setY(60);// сдвигаем дино вниз на старте игры
         land = new Land(this);
         clouds = new Clouds();
         enemiesManager = new EnemiesManager(mainCharacter, this);
         imageGameOverText = Resourse.getResourceImage("src/main/resources/gameover_text.png");
+        try {
+            scoreUpSound = newAudioClip(new URL("file", "", "src/main/resources/scoreup.wav"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void startGame() {
@@ -75,14 +88,15 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
     //плюсуем стату
     public void plusScore(int score) {
         this.score += score;
+        scoreUpSound.play();
     }
 
     @Override
     public void paint(Graphics g) {
         g.setColor(Color.decode("#f7f7f7")); //цвет бэкграунда всего поля
         g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(Color.red);
-        g.drawLine(0, (int)GROUNDY, getWidth(), (int) GROUNDY);
+//        g.setColor(Color.red);
+//        g.drawLine(0, (int)GROUNDY, getWidth(), (int) GROUNDY);
 
         switch (gameState) {
             case GAME_FIRST_STATE:
@@ -106,6 +120,13 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 
     }
 
+    private void resetGame() {
+        mainCharacter.setAlive(true); //перезапускаем игру при нажатии на пробел
+        mainCharacter.setX(50);
+        mainCharacter.setY(60);
+        enemiesManager.reset();
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -124,7 +145,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
                 } else if (gameState == GAME_PLAY_STATE) {
                     mainCharacter.jump();
                 } else if (gameState == GAME_OVER_STATE) {
+                    resetGame(); //перезапускаем игру при нажатии пробела
                     gameState = GAME_PLAY_STATE;
+
                 }
                 break;
         }

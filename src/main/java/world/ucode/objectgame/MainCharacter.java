@@ -46,9 +46,11 @@ public class MainCharacter {
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);//цвет квадрата
-        g.drawRect((int) x, (int) y, characterRun.getFrame().getWidth(), characterRun.getFrame().getHeight());
+        //g.drawRect((int) x, (int) y, characterRun.getFrame().getWidth(), characterRun.getFrame().getHeight());
         g.drawImage(characterRun.getFrame(), (int) x, (int) y, null);
     }
+
+
 
     public  void jump() {
         speedY = -4;

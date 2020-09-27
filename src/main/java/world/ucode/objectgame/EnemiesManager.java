@@ -26,7 +26,6 @@ public class EnemiesManager {
         imageCactus2 = Resourse.getResourceImage("src/main/resources/cactus2.png");
         random = new Random();
         enemies.add(getRandomCactus());
-        random = new Random();
     }
 
     public  void update() {
@@ -55,6 +54,11 @@ public class EnemiesManager {
         for (Enemy e : enemies) {
             e.draw(g);
         }
+    }
+
+    public void reset() {
+        enemies.clear();
+        enemies.add(getRandomCactus());
     }
 
     private Cactus getRandomCactus() {

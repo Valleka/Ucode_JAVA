@@ -2,7 +2,7 @@ package world.ucode.objectgame;
 
 import java.awt.*;
 
-//создаем интерфейс
+//создаем интерфейс для коллизии
 public abstract class Enemy {
     public abstract Rectangle getBound();
     public abstract void draw(Graphics g);

@@ -35,6 +35,8 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 
     private BufferedImage imageGameOverText;
     private AudioClip scoreUpSound;
+    public static AudioClip jumpSound;
+    public static AudioClip SoundDead;
 
     public GameScreen() {
         //конструктор
@@ -47,7 +49,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
         enemiesManager = new EnemiesManager(mainCharacter, this);
         imageGameOverText = Resourse.getResourceImage("src/main/resources/gameover_text.png");
         try {
+            jumpSound = newAudioClip(new URL("file", "", "src/main/resources/jump.wav"));
             scoreUpSound = newAudioClip(new URL("file", "", "src/main/resources/scoreup.wav"));
+            SoundDead = newAudioClip(new URL("file", "", "src/main/resources/dead.wav"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -114,7 +118,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
                 land.draw(g);
                 mainCharacter.draw(g);
                 enemiesManager.draw(g);
-                g.drawImage(imageGameOverText, 100, 50, null);
+                g.drawImage(imageGameOverText, 200, 30, null);
                 break;
         }
 

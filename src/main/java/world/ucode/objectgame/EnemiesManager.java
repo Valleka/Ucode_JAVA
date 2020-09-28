@@ -39,6 +39,7 @@ public class EnemiesManager {
             //делаем колизию дино сдох
             if (e.getBound().intersects(mainCharacter.getBound())) {
                 mainCharacter.setAlive(false);
+                GameScreen.SoundDead.play();
             }
         }
         Enemy firstEnemy = enemies.get(0);
@@ -46,8 +47,6 @@ public class EnemiesManager {
             enemies.remove(firstEnemy);
             enemies.add(getRandomCactus());
         }
-        //делаем колизию дино сдох
-
     }
 
     public void draw(Graphics g) {

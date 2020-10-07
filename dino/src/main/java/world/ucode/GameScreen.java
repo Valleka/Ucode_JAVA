@@ -11,13 +11,15 @@ import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import static java.applet.Applet.newAudioClip;
 
-public class GameScreen extends JPanel implements Runnable, KeyListener {
+public class GameScreen extends JPanel implements Runnable, KeyListener, MouseListener {
     public static final int GAME_FIRST_STATE = 0;
     public static final int GAME_PLAY_STATE = 1;
     public static final int GAME_OVER_STATE = 2;
@@ -34,6 +36,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
     private int gameState = GAME_FIRST_STATE;
 
     private BufferedImage imageGameOverText;
+    private BufferedImage replayButtonImage;
     private AudioClip scoreUpSound;
     public static AudioClip jumpSound;
     public static AudioClip SoundDead;
@@ -48,6 +51,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
         clouds = new Clouds();
         enemiesManager = new EnemiesManager(mainCharacter, this);
         imageGameOverText = Resourse.getResourceImage("src/main/resources/gameover_text.png");
+        replayButtonImage = Resourse.getResourceImage("src/main/resources/replay_button.png");
         try {
             jumpSound = newAudioClip(new URL("file", "", "src/main/resources/jump.wav"));
             scoreUpSound = newAudioClip(new URL("file", "", "src/main/resources/scoreup.wav"));
@@ -55,7 +59,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
+        this.addMouseListener(new MouseInput());
     }
 
     public void startGame() {
@@ -68,7 +72,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
             try {
                 update();
                 repaint();
-                Thread.sleep(20);
+                Thread.sleep(15);//скорость игры
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
@@ -119,6 +123,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
                 mainCharacter.draw(g);
                 enemiesManager.draw(g);
                 g.drawImage(imageGameOverText, 200, 30, null);
+                g.drawImage(replayButtonImage, 280, 50, null);
                 break;
         }
 
@@ -126,8 +131,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 
     private void resetGame() {
         mainCharacter.setAlive(true); //перезапускаем игру при нажатии на пробел
-        mainCharacter.setX(50);
-        mainCharacter.setY(60);
+
+        mainCharacter.setX(50); // положение дино до старта
+        mainCharacter.setY(60);// положение дино до старта
         enemiesManager.reset();
     }
 
@@ -151,10 +157,41 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
                 } else if (gameState == GAME_OVER_STATE) {
                     resetGame(); //перезапускаем игру при нажатии пробела
                     gameState = GAME_PLAY_STATE;
-
                 }
                 break;
         }
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        int mx = e.getX();
+        int my = e.getY();
+        //System.out.println(mx);
+        if(mx >= 280 && mx <= 350) {
+            //System.out.println("TTYYYTTYYTYT");
+            if (my >= 50 && my <= 85) {
+                gameState = GAME_PLAY_STATE;
+                resetGame();
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

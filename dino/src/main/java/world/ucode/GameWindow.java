@@ -26,6 +26,4 @@ public class GameWindow  extends JFrame {
         gw.setVisible(true);
         gw.startGame();
     }
-
-
 }

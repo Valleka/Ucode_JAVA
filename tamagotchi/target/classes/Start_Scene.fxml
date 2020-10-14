@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" fx:controller="world.ucode.Controllers.MainController" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="477.0" fitWidth="801.0">
+      <ImageView fitHeight="477.0" fx:id="image" fitWidth="801.0">
          <image>
             <Image url="@Tom-and-Jerry-psd38572-0.png" />
          </image>
       </ImageView>
-      <Button mnemonicParsing="false" style="-fx-background-color: #ff0000;" text="Start Game" textFill="WHITE">
+      <Button mnemonicParsing="false" onAction="#clicked" style="-fx-background-color: #ff0000;" text="Start Game" textFill="WHITE">
          <font>
             <Font size="22.0" />
          </font>

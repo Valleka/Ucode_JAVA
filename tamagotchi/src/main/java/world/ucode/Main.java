@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        loader = new FXMLLoader(getClass().getResource("/Start_Scene.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/Scene_2.fxml"));
         root = loader.load();
         currentStage = primaryStage;
         currentStage.setScene(new Scene(root));
@@ -27,5 +27,4 @@ public class Main extends Application {
     public static void main (String[] args) {
         Application.launch(args);
     }
-
 }

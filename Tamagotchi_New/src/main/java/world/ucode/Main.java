@@ -9,11 +9,28 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public FXMLLoader loader;
     private Parent root;
-    public Stage currentStage;
+    public static Stage currentStage;
 
+    public static enum States {
+        Start,
+        Choose,
+        Game,
+        End
+    };
+    public static States state = States.Start;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        loader = new FXMLLoader(getClass().getResource("/Second_Scene.fxml"));
+        switch (state) {
+            case Start:
+                loader = new FXMLLoader(getClass().getResource("/First_Scene.fxml"));
+                break;
+            case Game:
+                loader = new FXMLLoader(getClass().getResource("/Second_Scene.fxml"));
+                break;
+            default:
+                break;
+        }
+
         root = loader.load();
         currentStage = primaryStage;
         currentStage.setScene(new Scene(root));

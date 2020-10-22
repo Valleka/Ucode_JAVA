@@ -45,7 +45,7 @@
                   <Font size="37.0" />
                </font>
             </Text>
-            <Button layoutX="326.0" layoutY="527.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Selekt Pet" textFill="WHITE">
+            <Button layoutX="326.0" layoutY="527.0" onAction="#clickedSet" mnemonicParsing="false" style="-fx-background-color: red;" text="Selekt Pet" textFill="WHITE">
                <font>
                   <Font size="17.0" />
                </font>

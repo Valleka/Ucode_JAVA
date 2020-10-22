@@ -35,6 +35,16 @@ public class PreviewController implements Initializable {
         }
         image.setImage(imgs[index]);
     }
+    @FXML
+    public void clickedSet() throws Exception {
+        Main main = new Main();
+        Main.state = Main.States.Game;
+        main.start(Main.currentStage);
+        GameController game = Main.loader3.getController();
+        game.setImage(imgs[index]);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         imgs[0] = new Image("/Jerry_pet.png");

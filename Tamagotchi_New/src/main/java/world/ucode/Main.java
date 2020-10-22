@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public FXMLLoader loader;
+    public static FXMLLoader loader;
+    public static FXMLLoader loader2;
+    public static FXMLLoader loader3;
     private Parent root;
     public static Stage currentStage;
 
@@ -23,15 +25,19 @@ public class Main extends Application {
         switch (state) {
             case Start:
                 loader = new FXMLLoader(getClass().getResource("/First_Scene.fxml"));
+                root = loader.load();
+                break;
+            case Choose:
+                loader2 = new FXMLLoader(getClass().getResource("/Second_Scene.fxml"));
+                root = loader2.load();
                 break;
             case Game:
-                loader = new FXMLLoader(getClass().getResource("/Second_Scene.fxml"));
+                loader3 = new FXMLLoader(getClass().getResource("/GameScene.fxml"));
+                root = loader3.load();
                 break;
             default:
                 break;
         }
-
-        root = loader.load();
         currentStage = primaryStage;
         currentStage.setScene(new Scene(root));
         currentStage.setMinWidth(800);

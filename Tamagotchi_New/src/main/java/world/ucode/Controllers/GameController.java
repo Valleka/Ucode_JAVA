@@ -9,7 +9,6 @@ public class GameController {
     @FXML
     public ImageView img;
 
-    @FXML
     public void setImage(Image image) {
         img.setImage(image);
     }

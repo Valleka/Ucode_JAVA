@@ -13,7 +13,7 @@ public class MainController {
     @FXML
     public void clicked() throws Exception {
         Main main = new Main();
-        Main.state = Main.States.Game;
+        Main.state = Main.States.Choose;
         main.start(Main.currentStage);
     }
 }

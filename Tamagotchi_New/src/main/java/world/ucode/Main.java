@@ -10,6 +10,7 @@ public class Main extends Application {
     public static FXMLLoader loader;
     public static FXMLLoader loader2;
     public static FXMLLoader loader3;
+    public static FXMLLoader loader4;
     private Parent root;
     public static Stage currentStage;
 
@@ -35,14 +36,18 @@ public class Main extends Application {
                 loader3 = new FXMLLoader(getClass().getResource("/GameScene.fxml"));
                 root = loader3.load();
                 break;
-            default:
+            case End:
+                loader4 = new FXMLLoader(getClass().getResource("/EngGameScene.fxml"));
+                root = loader4.load();
                 break;
+            default:
+                return;
         }
         currentStage = primaryStage;
         currentStage.setScene(new Scene(root));
         currentStage.setMinWidth(800);
         currentStage.setMinHeight(600);
-        currentStage.setResizable(false);
+        currentStage.setResizable(true);
         currentStage.setTitle("Tamagotchi");
         currentStage.show();
     }

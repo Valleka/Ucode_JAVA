@@ -1,16 +1,20 @@
 package world.ucode.Controllers;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.WindowEvent;
 import world.ucode.Interfaces.InterPets;
+import world.ucode.Timer;
+import world.ucode.Main;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
+//import java.util.Timer;
 
 public class GameController implements Initializable, InterPets {
     public double health = 0.7;

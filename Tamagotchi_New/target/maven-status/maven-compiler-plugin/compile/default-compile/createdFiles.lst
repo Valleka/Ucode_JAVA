@@ -1,2 +1,5 @@
 world/ucode/Main$States.class
+world/ucode/Controllers/EndGameControler.class
+world/ucode/Timer.class
+world/ucode/Interfaces/InterPets.class
 world/ucode/Main$1.class

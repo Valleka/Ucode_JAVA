@@ -15,7 +15,7 @@ public class Timer extends AnimationTimer {
     }
 
     private void progressHandle() throws Exception {
-        GameController game = new Main.loader3.getController();
+        GameController game = Main.loader3.getController();
         if (game.eat <= 0 || game.health <= 0 || game.play <= 0 || game.shower <= 0 || game.sleep <= 0) {
             stop();
             Main main = new Main();

@@ -39,7 +39,7 @@
                   <Font size="37.0" />
                </font>
             </Text>
-            <TextField layoutX="317.0" layoutY="59.0" />
+            <TextField layoutX="317.0" layoutY="59.0" fx:id="name" />
             <Text fill="#f50909" layoutX="252.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Your Name">
                <font>
                   <Font size="37.0" />

@@ -11,6 +11,12 @@
     <title>Pixelizator</title>
 </head>
 <body>
-    <h1>Test Pixelizator</h1>
+    <h1>Pixelizator</h1>
+    <h3>Загрузите ваше фото</h3>
+    <form id="image-form" metod="post" enctype="multipart/form-data" action="#">
+        <input type="file" name="file" />
+
+    </form>
+
 </body>
 </html>

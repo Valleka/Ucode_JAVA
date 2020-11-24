@@ -8,25 +8,30 @@ import java.sql.*;
 
 public class UsersDB {
     private static Connection connect;
-    private static Statement statem;
+    //private static Statement statem;
     private static ResultSet res;
-    private boolean userExist = false;
+    //private boolean userExist = false;
 
     public void getConnection(String name) throws SQLException, ClassNotFoundException {
-
+        //Statement statem = connect.createStatement();
         Class.forName("org.sqlite.JDBC");
         connect = DriverManager.getConnection("jdbc:sqlite:TamagotchiDB.s3db");
-        statem = connect.createStatement();
         checkUser(name);
     }
 
     public void createTable(String name) {
+        Statement statem = null;
+        try {
+            statem = connect.createStatement();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         System.out.println();
         PreviewController checkPet = Main.loader2.getController();
-        System.out.println("Wooooooooooof"); //нужно будет закоментить это
+        //System.out.println("Wooooooooooof"); // закоментить
 
         try {
-            statem.execute("insert into users('name', 'heals', 'eat', 'sleep', 'shower', 'play', 'pet_num') values('"+ name +"', 0, 0, 0, 0, 0, '" + checkPet.index +"');");
+            statem.execute("insert into users('name', 'heals', 'eat', 'sleep', 'shower', 'play', 'pet_num') values('"+ name +"', 0.7, 0.7, 0.7, 0.7, 0.7, '" + checkPet.index +"');");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -34,6 +39,7 @@ public class UsersDB {
     }
 
     public void checkUser(String name) throws SQLException {
+        Statement statem = connect.createStatement();
         res = statem.executeQuery("select * from users");
         int ind = 0;
 
@@ -43,6 +49,9 @@ public class UsersDB {
                 getData(name);
                 return;
             }
+//            if (res.getDouble("heals") == 0) {
+//                createTable(name);
+//            }
         }
         createTable(name);
     }
@@ -66,6 +75,7 @@ public class UsersDB {
     }
 
     public void getData(String name) throws  SQLException {
+        Statement statem = connect.createStatement();
         String sql = "select * from users where name = '" + name + "';";
         res = statem.executeQuery(sql);
         GameController.health = res.getDouble("heals");
@@ -79,9 +89,10 @@ public class UsersDB {
         game.img.setImage(PreviewController.imgs[res.getInt("pet_num")]);
         System.out.println(res.getInt("pet_num"));
     }
-    public void deleteData(String name) throws SQLException {
-        String sql = "delete from users where name ='" + name + "';";
-        res = statem.executeQuery(sql);
-    }
+//    public void deleteData(String name) throws SQLException {
+//        Statement statem = connect.createStatement();
+//        String sql = "delete from users where name ='" + name + "';";
+//        res = statem.executeQuery(sql);
+//    }
 
 }

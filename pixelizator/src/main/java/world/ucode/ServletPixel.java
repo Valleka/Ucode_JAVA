@@ -1,16 +1,40 @@
 package world.ucode;
 
 import world.ucode.CartPackage.Cart;
+import world.ucode.logic.PixelizateImage;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Paths;
 
-public class ServletPixel extends javax.servlet.http.HttpServlet {
+public class ServletPixel extends HttpServlet {
+    @Override
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        Part filePart = request.getPart("file");
+        PixelizateImage pix = new PixelizateImage();
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        InputStream fileContent = pix.toPixel(filePart.getInputStream());
 
+        if (fileContent != null) {
+            OutputStream out = response.getOutputStream();
+            byte[] buffer = new byte[2400];
+            int count = 0;
+            while ((count = fileContent.read(buffer)) >= 0) {
+                response.getOutputStream().write(buffer);
+            }
+        }
+        else {
+            response.getWriter().println("Your use bad img");
+        }
+        System.out.println("Ok");
     }
 
+    @Override
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 //        HttpSession session = request.getSession();
 
@@ -59,7 +83,7 @@ public class ServletPixel extends javax.servlet.http.HttpServlet {
 
         //session.setAttribute("count", ); //указываем атрибуты
 
-//        String name = request.getParameter("name");
+//          String fileName = request.getParameter("file");
 //        String surname = request.getParameter("surname");
 
 

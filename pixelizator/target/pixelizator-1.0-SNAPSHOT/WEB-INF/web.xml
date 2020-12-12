@@ -28,7 +28,7 @@
             ServletPixelJsp
         </servlet-name>
         <url-pattern>
-            /hello-jsp
+            /pixelizator
         </url-pattern>
     </servlet-mapping>
 

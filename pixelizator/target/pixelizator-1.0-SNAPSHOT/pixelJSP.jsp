@@ -25,7 +25,7 @@
             name = (request.getParameter("file") != null) ? request.getParameter("file") : "null";
     %>
 
-    <h3>namefile:<%=name%></h3>
+    <h3>File name:<%=name%></h3>
 
     <%
         }catch (NullPointerException ex){

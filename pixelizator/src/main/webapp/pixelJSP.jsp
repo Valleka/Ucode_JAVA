@@ -1,14 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vynchuk
-  Date: 11/17/20
-  Time: 12:27 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Pixelizator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
     <h1>Pixelizator</h1>
@@ -17,20 +11,20 @@
         <input type="file" name="file" />
         <input type="submit" onchange="show()" />
     </form>
-    <%
-        request.setCharacterEncoding("UTF-8");
-        String name,password;
+<%--    <%--%>
+<%--        request.setCharacterEncoding("UTF-8");--%>
+<%--        String name,password;--%>
 
-        try {
-            name = (request.getParameter("file") != null) ? request.getParameter("file") : "null";
-    %>
+<%--        try {--%>
+<%--            name = (request.getParameter("file") != null) ? request.getParameter("file") : "null";--%>
+<%--    %>--%>
 
-    <h3>File name:<%=name%></h3>
+<%--    <h3>File name:<%=name%></h3>--%>
 
-    <%
-        }catch (NullPointerException ex){
-            ex.printStackTrace();
-        }
-    %>
+<%--    <%--%>
+<%--        }catch (NullPointerException ex){--%>
+<%--            ex.printStackTrace();--%>
+<%--        }--%>
+<%--    %>--%>
 </body>
 </html>

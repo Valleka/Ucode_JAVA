@@ -2,25 +2,24 @@ package world.ucode.logic;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class PixelizateImage {
-    public InputStream toPixel(InputStream inp) throws IOException {
-        BufferedImage image = ImageIO.read(inp);
+    public BufferedImage image;
+    public InputStream toPixel(InputStream in, int size) throws IOException {
+        image = ImageIO.read(in);
         int h = image.getHeight();
         int w = image.getWidth();
         BufferedImage imgRes = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        int sizeOfPixel = 900;
 
-        for (int i = 0; i < w; i += sizeOfPixel) {
-            for (int j = 0; j < h; j += sizeOfPixel) {
-                int pixel = makePicture(image, i, j, sizeOfPixel);
-                for (int dw = i; (dw < i + sizeOfPixel) && (dw < imgRes.getWidth()); dw++) {
-                    for (int dh = j; (dh < j + sizeOfPixel) && (dh < imgRes.getHeight()); dh++) {
+        for (int i = 0; i < w; i += size) {
+            for (int j = 0; j < h; j += size) {
+                int pixel = makePicture(image, i, j, size);
+                for (int dw = i; (dw < i + size) && (dw < imgRes.getWidth()); dw++) {
+                    for (int dh = j; (dh < j + size) && (dh < imgRes.getHeight()); dh++) {
                         imgRes.setRGB(dw, dh, pixel);
                     }
                 }
@@ -41,5 +40,4 @@ public class PixelizateImage {
         int hCenter = j + sizeOfPixel < image.getHeight() ? j + sizeOfPixel : j;
         return image.getRGB(hCenter, wCenter);
     }
-
 }
